@@ -1,54 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="myApp">
 <head>
-	<title></title>
-	<!-- charset attribute should be set like this to support the use of greek letters within D3.js library -->
-	<script type="text/javascript" charset="UTF-8" src="bower_components/d3/d3.js"></script>
+  <script type="text/javascript" charset="UTF-8" src="bower_components/d3/d3.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="bower_components/angular/angular.js"></script>
+
+  <script type="text/javascript" src="src/app.js" ></script>
+  <link rel="stylesheet" type="text/css" href="src/app.css">
+
+  <script type="text/javascript" src="src/chart.js"></script>
+  <link rel="stylesheet" type="text/css" href=src/chart.css"">
 </head>
 <body>
-	<!-- D3.js example goes here -->
-    <svg width="800" height="500"></svg>
-    
-    <script type="text/javascript">
-      // Create a data array  
-      function randPoint(){
-      	var rand = Math.random;
-      	return {x: rand()*10, y: rand()*10, r:rand()*10};
-      }
-      var data = [];
-      for(var i=0; i < 300; i++){
-      	data.push(randPoint());
-      }
+  <div ng-controller="MainCtrl">
+    <!-- We can use the visualization directives here -->
 
-      function draw(){
-	      var svg = d3.selectAll('svg');
+    <!-- The first chart -->
+    <my-scatter-chart class="chart" data="logs"></my-scatter-chart>
 
-	      function key(d,i){
-	      	return d.x + '#' + d.y;
-	      }
+    <!-- A second chart -->
+    <!-- <my-scatter-chart class="chart"></my-scatter-chart> -->
 
-	      var circles = svg.selectAll('circle').data(data,key);
+    <!-- Another chart -->
+    <!-- <my-scatter-chart class="chart"></my-scatter-chart> -->
+  </div>
 
-	      circles.enter()
-	      	.append('circle')
-	      	.attr('r', function(d){return d.r;})
-	      	.attr('cx', function(d){return d.x*70 + 10;})
-	      	.attr('cy', function(d){return d.y*40 + 10;})
-	      	.attr('fill', function(d){
-	      		return 'rgb(' + parseInt(d.r*25,10) + ',0,0)';
-	      	})
-
-	      	circles.exit()
-	      		.remove();
-
-      }
-
-      var timer = setInterval(function(){
-      	data.shift();
-      	data.push(randPoint());
-      	draw();
-      },150);
-
-    </script>
 </body>
 </html>
