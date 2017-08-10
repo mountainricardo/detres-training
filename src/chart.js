@@ -35,12 +35,17 @@ angular.module('myChart', [])
 					// alternative method to do the same
 					// d3.extent(data, function(d) { return d.x; })
 				)
-				.range([margin, width - margin]);
+				.range([margin, width - margin])
+				// .range([0,24])
+				.nice();
+				// xScale.interpolate(d3.interpolate);
 
 			// Define x-axis
 			var xAxis = d3.svg.axis()
 				.scale(xScale)
 				.orient('top')
+				.axisLabel('Hours')
+				.ticks(d3.time.hour)
 				.tickFormat(d3.time.format('%H'));
 
 			// Define y-scale
