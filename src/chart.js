@@ -16,8 +16,8 @@ angular.module('myChart', [])
 .directive('myScatterChart', ['d3',
 	function(d3){
 
-		// we will soon implement this function
-		var draw = function(svg,width, height, data){
+		// 
+		var draw = function(svg, width, height, data){
 			svg
 				.attr('width', width)
 				.attr('height', height);
@@ -28,30 +28,32 @@ angular.module('myChart', [])
 			// Define x-scale
 			var xScale = d3.time.scale()
 				.domain(
-					// [
-					// d3.min(data, function(d){return d.time;}),
-					// d3.max(data, function(d){return  d.time;})
-					// ]
-					d3.extent(data, function(d) { return d.time; })
+					[
+					d3.min(data, function(d){return d.x;}),
+					d3.max(data, function(d){return  d.x;})
+					]
+					// alternative method to do the same
+					// d3.extent(data, function(d) { return d.x; })
 				)
-				.range([margin, width-margin]);
+				.range([margin, width - margin]);
 
 			// Define x-axis
 			var xAxis = d3.svg.axis()
 				.scale(xScale)
 				.orient('top')
-				.tickFormat(d3.time.format('%S'));
+				.tickFormat(d3.time.format('%H'));
 
 			// Define y-scale
 			var yScale = d3.time.scale()
-				.domain([0, d3.max(data, function(d){ return d.visitors;})])
-				.range([margin, height-margin]);
+			// var yScale = d3.scale.linear()
+				.domain([0, d3.max(data, function(d){ return d.y;})])
+				.range([margin, height - margin]);
 
 			// Define y-axis
 			var yAxis = d3.svg.axis()
 				.scale(yScale)
 				.orient('left')
-				.tickFormat(d3.format('f'));
+				.tickFormat(d3.format('d'));
 
 			// Draw x-axis
 			svg.select('.x-axis')
@@ -74,11 +76,10 @@ angular.module('myChart', [])
 			svg.select('.data')
 				.selectAll('circle').data(data)
 				.attr('r', 2.5)
-				.attr('cx', function(d) {
-console.log('d');
-console.log(d);
-					return xScale(d.time);})
-				.attr('cy', function(d) {return yScale(d.visitors)});
+				.attr('cx', function(d) {return xScale(d.x);})
+				.attr('cy', function(d) {return yScale(d.y)});
+// console.log('d');
+// console.log(d);
 
 
 		}
@@ -106,9 +107,16 @@ console.log(d);
 
 					// Watch the data attribute of the scope
 					scope.$watch('data', function(newVal, oldVal, scope){
+						// Map the data to internal format
+						var data = scope.data.map(function(d){
+							return {
+								x: d.time,
+								y: d.visitors
+							}
+						});
 
 						// Update the chart
-						draw(svg, width, height, scope.data);
+						draw(svg, width, height, data);
 					}, true)
 				};
 			}

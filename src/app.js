@@ -5,7 +5,8 @@ angular.module('myApp',['myChart'])
 	.controller('MainCtrl', ['$scope', '$interval'
 			, function($scope, $interval){
 				
-				var time = new Date('2014-01-01 00:00:00 +0100');
+				// var time = new Date('2014-01-01 00:00:00 +0100');
+				var time = new Date();
 
 				// Random data point generator
 				var randPoint = function(){
@@ -19,7 +20,7 @@ angular.module('myApp',['myChart'])
 				$interval(function(){
 					time.setSeconds(time.getSeconds() + 1);
 					$scope.logs.push(randPoint());
-					console.log($scope.logs);
+					// console.log($scope.logs);
 				},3000);
 
 			}]);
