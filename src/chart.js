@@ -43,26 +43,28 @@ angular.module('myChart', [])
 			// Define x-axis
 			var xAxis = d3.svg.axis()
 				.scale(xScale)
-				.orient('top')
-				.axisLabel('Hours')
+				.orient('bottom')
+				// .axisLabel('Hours')
 				.ticks(d3.time.hour)
 				.tickFormat(d3.time.format('%H'));
 
 			// Define y-scale
-			var yScale = d3.time.scale()
-			// var yScale = d3.scale.linear()
+			// var yScale = d3.scale.quantile()
+			var yScale = d3.scale.linear()
 				.domain([0, d3.max(data, function(d){ return d.y;})])
-				.range([margin, height - margin]);
+				// .domain([ d3.max(data, function(d){ return d.y;}) ,0])
+				.range([margin,  height - margin]);
 
 			// Define y-axis
 			var yAxis = d3.svg.axis()
 				.scale(yScale)
 				.orient('left')
-				.tickFormat(d3.format('d'));
+				.ticks(10,10)
+				// .tickFormat(d3.format('d'));
 
 			// Draw x-axis
 			svg.select('.x-axis')
-				.attr('transform', 'translate(0, ' + margin + ')')
+				.attr('transform', 'translate(0,' + (height - margin) + ')')
 				.call(xAxis);
 
 			// Draw y-axis

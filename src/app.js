@@ -20,7 +20,7 @@ angular.module('myApp',['myChart'])
 					var randM = getRandomInt(0,59);
 					var t =  new Date('2017-08-01 ' + randH + ':' + randM + ':00 +0100');
 					// console.log(t);
-					return { time: t, visitors: Math.floor(rand() * 100) };
+					return { time: t.getTime(), visitors: Math.floor(rand() * 100) };
 				}
 
 				//  We store a list of logs
